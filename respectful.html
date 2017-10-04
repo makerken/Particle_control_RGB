@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Particle RGB Control</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js"></script>
+</head>
+<body>
+    <center>
+    <br>
+    <br>
+    <input class="jscolor" onchange="update(this.jscolor)" value="cc66ff">
+
+    <script>
+    var accessToken = "paste_here";
+    var deviceId = "paste_here";
+    // keep this website private, you can run it locally, or share it to yourself e.g. dropbox or email, it has your access information (resetable)
+
+    var rgb;
+    var postTimer = window.setInterval(post, 1000);
+    
+    function update(jscolor) {
+        rgb = Math.round(jscolor.rgb[0]) + '_' +
+        Math.round(jscolor.rgb[1]) + '_' +
+        Math.round(jscolor.rgb[2]);
+        newColor = true;
+    }
+
+    function post() {
+        if(newColor == true) {
+            $.post( "https://api.particle.io/v1/devices/" + deviceId + "/rgb?access_token=" + accessToken, { value: rgb } );
+            newColor = false;
+        }
+    }
+    </script>
+
+</body>
+</html>
